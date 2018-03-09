@@ -12,11 +12,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-var words = ["abbey", "abruptly", "affix", "apostrophe", "askew", "axiom", "azure", "bagpipes", "bandwagon", "banjo", "bayou", "bikini", "blitz", "bookworm", "boxcar", "boxful", "buckaroo", "buffalo", "buffoon", "chateau", "cobweb", "croquet", "daiquiri", "degenarative", "disavow", "duplex", "dwarf", "equip", "exodus", "fishhook", "fixable", "foxglove", "galaxy", "galvanize", "gazebo", "gizmo", "glowworm", "god", "guffaw", "hangman", "haiku", "haphazard", "hybrid", "hyperbole", "hyphen", "icebox", "injury", "ivory", "ivy", "jaundice", "jawbreaker", "jaywalk", "jazz", "jazzy", "jigsaw", "jiujitsu", "jockey", "jovial", "joyful", "juicy", "jumbo", "kazoo", "kelvin", "keyhole", "khaki", "kilobyte", "kiosk", "kiwifruit", "knapsack", "krypton", "larynx", "lepton", "luxury", "marquis", "megahertz", "metaphor",  "microwave", "muon", "mystify", "nemesis", "neutrino", "neutron", "nightclub", "nowadays", "numbskull", "octogenarian", "osteoporosis", "ovary", "oxidize", "oxygen", "pajama", "peekaboo", "penumbra", "pixel", "physical", "photon", "pneumonia", "polka", "proton", "pseudoscience", "quark", "quartz", "quiz", "quorum", "ray", "radon", "radiation", "rickshaw", "ripple", "schizophrenia", "sphinx", "spritz", "squawk", "subway", "swivel", "symmetry", "talisman", "topaz", "umbrella", "unknown", "unworthy", "unzip", "uptown", "vaporize", "vixen", "void", "vodka", "vortex", "walkway", "waltz", "wavy", "waxy", "weird", "wheezy", "whiskey", "whomever", "wimpy", "wizard", "woozy", "xenon", "xenophobia", "xylophone", "yachtsman", "yippee", "youthful", "zephyr", "zigzag", "zilch", "zodiac", "zombi"];
+//var words = ["ΠΛΗΡΟΦΟΡΙΚΗ", "ΔΗΜΟΤΙΚΟ"];
+
+var cat_history = ['ΔΩΡΙΕΙΣ'];
+var cat_sports = ['ΠΟΔΟΣΦΑΙΡΟ'];
+
+
 
 function drawWord(wo, gu)
 {
-    var nword = ""; var ok;        
+    var nword = ""; var ok;
     for (var i = 0; i < wo.length; i++) {
         ok = false;
         for (var j = 0; j < gu.length; j++)
@@ -24,7 +29,7 @@ function drawWord(wo, gu)
             if (gu[j] == wo[i]) {
                 nword = nword + wo[i].toUpperCase() + ' ';
                 ok = true;
-                break; 
+                break;
             }
         }
         if (!ok) nword = nword + '_ ';
@@ -39,14 +44,93 @@ function checkWin(p)
     return true;
 }
 
+function gup( name, url ) {
+    if (!url) url = location.href;
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( url );
+    return results == null ? null : results[1];
+}
+
+/** FROM https://www.kevinleary.net/javascript-get-url-parameters/
+ * JavaScript Get URL Parameter
+ * 
+ * @param String prop The specific URL parameter you want to retreive the value for
+ * @return String|Object If prop is provided a string value is returned, otherwise an object of all properties is returned
+ */
+function getUrlParams( prop ) {
+    var params = {};
+    var search = decodeURIComponent( window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ) );
+    var definitions = search.split( '&' );
+
+    definitions.forEach( function( val, key ) {
+        var parts = val.split( '=', 2 );
+        params[ parts[ 0 ] ] = parts[ 1 ];
+    } );
+
+    return ( prop && prop in params ) ? params[ prop ] : params;
+}
+
+
 $(document).ready(function(){
-    var w = words[Math.floor(Math.random() * words.length)];
+
+    var alx_params = getUrlParams();
+
+    $("#alx_debug").dialog({
+        autoOpen : false, 
+        modal : true, 
+        show : "blind", 
+        hide : "blind",
+        height: 400,
+        width: 350,
+        title: "Επιλογή κατηγορίας",
+        buttons: {
+            Cancel: function() {
+              dialog.dialog( "close" );
+            }
+          },
+          close: function() {
+            form[ 0 ].reset();
+            allFields.removeClass( "ui-state-error" );
+          }
+    });
+    
+    // next add the onclick handler
+    $("#alx_show_dialolg").click(function() {
+      $("#alx_debug").dialog("open");
+      return false;
+    });
+
+    var words=[];
+    Object.keys(alx_params).forEach(function(key) {
+        if (key=="cat") {
+            if (alx_params[key]=='history')
+                words = cat_history;
+            if (alx_params[key]=='sports')
+                words = cat_sports;
+        }
+    });
+
+    if (gup('q')==null)
+      var w = words[Math.floor(Math.random() * words.length)];
+    else {
+      if (eval('typeof words' + gup('q')) === 'undefined') {
+        var w = words[Math.floor(Math.random() * words.length)];
+      }
+      else {
+        var fwords = eval('words'+gup('q'));
+        var w = fwords[Math.floor(Math.random() * fwords.length)];
+      }
+
+    }
+
     var guess = "";
     var t = 0;
     var c = document.getElementById("display");
     var ctx = c.getContext("2d");
     ctx.font="30px Arial";
-    ctx.strokeText("Hangman",235,50);
+    ctx.strokeText("Κρεμάλα",235,50);
     drawWord(w, guess);
     $('#letters a').click(function(){
         var vl = $(this).attr('value');
@@ -56,12 +140,12 @@ $(document).ready(function(){
             $(this).hide();
             drawWord(w, guess);
             if (checkWin($('#theword').html())) {
-                $('#msg').html('Well done! Reload the page to play again.');
+                $('#msg').html('Μπράβο! Βρήκες τη λέξη!.');
                 $('#letters').hide();
             }
         } else {
             t++;
-            $(this).hide();                 
+            $(this).hide();
             switch(t)
             {
                 case 1: {
@@ -121,9 +205,9 @@ $(document).ready(function(){
                     ctx.stroke();
                 } break;
             }
-               
+
             if (t == 11) {
-                $('#msg').html('You are dead! Reload the page to play again.');
+                $('#msg').html('Δυστυχώς έχασες!.');
                 $('#letters').hide();
                 $('#theword').html(w.toUpperCase());
             }
