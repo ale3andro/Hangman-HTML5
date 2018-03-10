@@ -15,7 +15,7 @@
 //var words = ["ΠΛΗΡΟΦΟΡΙΚΗ", "ΔΗΜΟΤΙΚΟ"];
 
 var cat_history = ['ΔΩΡΙΕΙΣ'];
-var cat_sports = ['ΠΟΔΟΣΦΑΙΡΟ'];
+var cat_sports = ['ΠΟΔΟΣΦΑΙΡΟ', 'ΜΠΑΣΚΕΤ'];
 
 
 
@@ -124,7 +124,6 @@ $(document).ready(function(){
       }
 
     }
-
     var guess = "";
     var t = 0;
     var c = document.getElementById("display");
@@ -146,6 +145,7 @@ $(document).ready(function(){
         } else {
             t++;
             $(this).hide();
+            $('#alx_num_moves').html(7-t);
             switch(t)
             {
                 case 1: {
@@ -154,59 +154,48 @@ $(document).ready(function(){
                     ctx.stroke();
                 } break;
                 case 2: {
-                    ctx.moveTo(200, 275);
-                    ctx.lineTo(225, 300);
-                    ctx.stroke();
-                } break;
-                case 3: {
                     ctx.moveTo(200, 100);
                     ctx.lineTo(325, 100);
                     ctx.stroke();
                 } break;
-                case 4: {
-                    ctx.moveTo(200, 125);
-                    ctx.lineTo(225, 100);
-                    ctx.stroke();
-                } break;
-                case 5: {
+                case 3: {
                     ctx.moveTo(325, 100);
                     ctx.lineTo(325, 130);
                     ctx.stroke();
-                } break;
-                case 6: {
                     ctx.beginPath();
                     ctx.arc(325,150,20,0,2*Math.PI);
                     ctx.closePath();
                     ctx.stroke();
                 } break;
-                case 7: {
+                case 4: {
                     ctx.moveTo(325, 170);
                     ctx.lineTo(325, 230);
                     ctx.stroke();
                 } break;
-                case 8: {
+                case 5: {
                     ctx.moveTo(325, 180);
                     ctx.lineTo(300, 215);
                     ctx.stroke();
-                } break;
-                case 9: {
                     ctx.moveTo(325, 180);
                     ctx.lineTo(350, 215);
                     ctx.stroke();
                 } break;
-                case 10: {
+                case 6: {
                     ctx.moveTo(325, 230);
                     ctx.lineTo(300, 265);
                     ctx.stroke();
-                } break;
-                case 11: {
                     ctx.moveTo(325, 230);
                     ctx.lineTo(350, 265);
                     ctx.stroke();
                 } break;
+                case 7: {
+                    var img = new Image();
+                    img.onload = function(){ ctx.drawImage(img,300,240); };
+                    img.src = "images/fire.png"; 
+                } break;
             }
 
-            if (t == 11) {
+            if (t == 7) {
                 $('#msg').html('Δυστυχώς έχασες!.');
                 $('#letters').hide();
                 $('#theword').html(w.toUpperCase());
