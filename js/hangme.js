@@ -14,7 +14,7 @@
 */
 //var words = ["ΠΛΗΡΟΦΟΡΙΚΗ", "ΔΗΜΟΤΙΚΟ"];
 
-var cat_history = ['ΔΩΡΙΕΙΣ'];
+var cat_history = ['ΔΩΡΙΕΙΣ', 'ΚΑΘΟΔΟΣ', 'ΕΠΑΝΑΣΤΑΣΗ', 'ΝΑΥΜΑΧΙΑ', 'ΑΘΗΝΑ', 'ΣΠΑΡΤΗ', 'ΠΕΡΣΕΣ'];
 var cat_sports = ['ΠΟΔΟΣΦΑΙΡΟ', 'ΜΠΑΣΚΕΤ'];
 
 
@@ -72,8 +72,40 @@ function getUrlParams( prop ) {
     return ( prop && prop in params ) ? params[ prop ] : params;
 }
 
+function set_category(category) {
+    sessionStorage.setItem('selected_category', category);
+}
 
-$(document).ready(function(){
+function change_category() {
+    $("#alx_debug").dialog("open");
+}
+
+function unserialize_played_words() {
+    return sessionStorage.getItem('words_played').split('||');
+}
+
+function update_available_words(all_words) {
+    var available_words = [];
+    var words_played = unserialize_played_words();
+    for (var i=0; i<all_words.length; i++) {
+        if ($.inArray(all_words[i], words_played)==-1)
+            available_words.push(all_words[i])
+    }
+    return available_words;
+}
+
+function has_the_word_played(w) {
+    var words_played = sessionStorage.getItem('words_played').split('||');
+    for (var i=0; i<words_played.length; i++) {
+        if (words_played[i]==w)
+            return true;
+    }
+    return false;
+}
+
+$(document).ready(start_game());
+
+function start_game() {
 
     var alx_params = getUrlParams();
 
@@ -95,35 +127,49 @@ $(document).ready(function(){
             allFields.removeClass( "ui-state-error" );
           }
     });
-    
-    // next add the onclick handler
-    $("#alx_show_dialolg").click(function() {
-      $("#alx_debug").dialog("open");
-      return false;
-    });
 
     var words=[];
-    Object.keys(alx_params).forEach(function(key) {
-        if (key=="cat") {
-            if (alx_params[key]=='history')
-                words = cat_history;
-            if (alx_params[key]=='sports')
-                words = cat_sports;
-        }
-    });
-
-    if (gup('q')==null)
-      var w = words[Math.floor(Math.random() * words.length)];
-    else {
-      if (eval('typeof words' + gup('q')) === 'undefined') {
-        var w = words[Math.floor(Math.random() * words.length)];
-      }
-      else {
-        var fwords = eval('words'+gup('q'));
-        var w = fwords[Math.floor(Math.random() * fwords.length)];
-      }
-
+    if (sessionStorage.getItem('selected_category')==null) {
+        $("#alx_debug").dialog("open");
+        return;
     }
+    
+    switch (sessionStorage.getItem('selected_category')) {
+        case "history":
+            $("#alx_category").html("Κατηγορία: Ιστορία");
+            words = cat_history;
+            break;
+        case "sports":
+            $("#alx_category").html("Κατηγορία: Αθλητικά");
+            words = cat_sports;
+            break;
+        default:
+            break;
+    }
+    if (sessionStorage.getItem("words_played")!=null) {
+        var available_words = update_available_words(words);
+    console.log("The available words: " + available_words);
+    } 
+    var w = words[Math.floor(Math.random() * words.length)];
+   
+
+    // Έλεγχος αν έχει εμφανιστεί ήδη η λέξη
+    if (sessionStorage.getItem('words_played')!=null) {
+        if (has_the_word_played(w)) {
+            alert('η λέξη ' + w + ' έχει ξαναπαίξει!');
+            //draw_again
+        } else {
+            sessionStorage.setItem('words_played', sessionStorage.getItem('words_played') + '||' + w);
+            var index = words.indexOf(w);
+            if (index !== -1) words.splice(index, 1);
+            console.log('Διαθέσιμες λέξεις: ' + words);
+
+        }
+    } else {
+        sessionStorage.setItem('words_played', w);
+    }
+
+
     var guess = "";
     var t = 0;
     var c = document.getElementById("display");
@@ -141,6 +187,7 @@ $(document).ready(function(){
             if (checkWin($('#theword').html())) {
                 $('#msg').html('Μπράβο! Βρήκες τη λέξη!.');
                 $('#letters').hide();
+
             }
         } else {
             t++;
@@ -202,4 +249,4 @@ $(document).ready(function(){
             }
         }
     });
-});
+}

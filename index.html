@@ -52,10 +52,17 @@
           <h1 class="mt-5">Κρεμάλα</h1>
           <canvas id="display" width="600" height="300"></canvas>
     	    <p id="msg">Μάντεψε τη λέξη!</p>
-    	    <p id="theword">_</p>
+          <p id="theword">_</p>
+          <ip id="alx_play_again"><a href="index.html">Παίξε πάλι</a></ip>
           
         </div>
         <div class="col-md-5">
+          <div class="row">
+            <div id="alx_category">Κατηγορία: __</div><br />
+          </div>
+          <div class="row">
+              <div><a onclick="change_category()" href="#">Αλλαγή κατηγορίας</a></div>
+          </div>
           <div class="row">
             <p id="letters">Διάλεξε γράμμα:<br />
             <a value="Α" class="border bg-warning rounded-circle w-25 p-2" href="javascript:void(0)">Α</a>
@@ -95,10 +102,9 @@
     </div>
     <!-- /.container -->
 
-    <a href="#" id="alx_show_dialolg" title="Επιλογή κατηγορίας"><p>Διαθέσιμες κατηγορίες</p></a>
     <div id="alx_debug">
-      <p><a href="?cat=history">Ιστορία</a></p>
-      <p><a href="?cat=sports">Αθλητικά</a></p>
+      <p><a onclick="set_category('history');" href="index.html">Ιστορία</a></p>
+      <p><a onclick="set_category('sports');" href="index.html">Αθλητικά</a></p>
     </div>
 
     <!-- Bootstrap core JavaScript -->
