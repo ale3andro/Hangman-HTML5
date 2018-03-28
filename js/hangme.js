@@ -119,7 +119,8 @@ function start_game() {
         title: "Επιλογή κατηγορίας",
         buttons: {
             Cancel: function() {
-              dialog.dialog( "close" );
+                //$( this ).dialog('close');
+                $("#alx_debug").dialog("close");
             }
           },
           close: function() {
@@ -148,7 +149,12 @@ function start_game() {
     }
     if (sessionStorage.getItem("words_played")!=null) {
         var available_words = update_available_words(words);
-    console.log("The available words: " + available_words);
+        if (available_words.length==0) {
+            alert('Game Over!');
+            return;
+        }
+        console.log("The available words: " + available_words);
+        words = available_words;
     } 
     var w = words[Math.floor(Math.random() * words.length)];
    
