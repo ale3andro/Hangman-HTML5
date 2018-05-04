@@ -15,8 +15,10 @@
 //var words = ["ΠΛΗΡΟΦΟΡΙΚΗ", "ΔΗΜΟΤΙΚΟ"];
 
 var cat_history = ['ΔΩΡΙΕΙΣ', 'ΚΑΘΟΔΟΣ', 'ΕΠΑΝΑΣΤΑΣΗ', 'ΝΑΥΜΑΧΙΑ', 'ΑΘΗΝΑ', 'ΣΠΑΡΤΗ', 'ΠΕΡΣΕΣ'];
-var cat_sports = ['ΠΟΔΟΣΦΑΙΡΟ', 'ΜΠΑΣΚΕΤ'];
-
+var cat_sports = ['ΠΟΔΟΣΦΑΙΡΟ', 'ΜΠΑΣΚΕΤ', 'ΑΓΩΝΑΣ', 'ΠΕΤΟΣΦΑΙΡΙΣΗ', 'ΤΕΝΙΣ', 'ΥΔΑΤΟΣΦΑΙΡΙΣΗ', 'ΑΝΤΙΣΦΑΙΡΙΣΗ' ];
+var cat_maths = ['ΠΡΟΣΘΕΣΗ', 'ΑΦΑΙΡΕΣΗ', 'ΠΟΛΛΑΠΛΑΣΙΑΜΟΣ', 'ΔΙΑΙΡΕΣΗ', 'ΚΡΑΤΟΥΜΕΝΟ', 'ΔΙΑΙΡΕΤΕΟΣ', 'ΔΙΑΙΡΕΤΗΣ', 'ΓΙΝΟΜΕΝΟ', 'ΑΘΡΟΙΣΜΑ', 'ΔΙΑΦΟΡΑ'];
+var cat_geography = ['ΕΛΛΑΔΑ', 'ΠΕΛΛΑ', 'ΓΙΑΝΝΙΤΣΑ', 'ΕΔΕΣΣΑ', 'ΣΚΥΔΡΑ', 'ΑΡΙΔΑΙΑ', 'ΘΕΣΣΑΛΟΝΙΚΗ', 'ΑΘΗΝΑ', 'ΙΤΑΛΙΑ', 'ΓΕΡΜΑΝΙΑ', 'ΛΟΥΔΙΑΣ'];
+var cat_hy = ['ΠΥΡΓΟΣ', 'ΟΘΟΝΗ', 'ΠΛΗΚΤΡΟΛΟΓΙΟ', 'ΠΟΝΤΙΚΙ', 'ΕΚΤΥΠΩΤΗΣ', 'ΣΑΡΩΤΗΣ', 'ΜΝΗΜΗ', 'ΛΑΠΤΟΠ', 'ΗΧΕΙΑ', 'ΜΙΚΡΟΦΩΝΟ', 'ΚΑΜΕΡΑ', 'ΙΝΤΕΡΝΕΤ'];
 
 
 function drawWord(wo, gu)
@@ -74,6 +76,7 @@ function getUrlParams( prop ) {
 
 function set_category(category) {
     sessionStorage.setItem('selected_category', category);
+    sessionStorage.setItem('words_played', '');
 }
 
 function change_category() {
@@ -144,14 +147,31 @@ function start_game() {
             $("#alx_category").html("Κατηγορία: Αθλητικά");
             words = cat_sports;
             break;
+        case "maths":
+            $("#alx_category").html("Κατηγορία: Μαθηματικά");
+            words = cat_maths;
+            break;
+        case "geography":
+            $("#alx_category").html("Κατηγορία: Γεωγραφία");
+            words = cat_geography;
+            break;
+        case "hy":
+            $("#alx_category").html("Κατηγορία: Ηλ. Υπολογιστές");
+            words = cat_hy;
+            break;
         default:
             break;
     }
     if (sessionStorage.getItem("words_played")!=null) {
         var available_words = update_available_words(words);
         if (available_words.length==0) {
-            alert('Game Over!');
-            return;
+            if (confirm("Έπαιξες όλες τις λέξεις της κατηγορίας. Συνέχεια με επιλογή άλλης κατηγορίας")) {
+                sessionStorage.setItem('words_played', "");
+                $("#alx_debug").dialog("open");
+                return;
+            } else {
+                window.location = "http://sxoleio.pw";
+            }
         }
         console.log("The available words: " + available_words);
         words = available_words;
@@ -165,7 +185,10 @@ function start_game() {
             alert('η λέξη ' + w + ' έχει ξαναπαίξει!');
             //draw_again
         } else {
-            sessionStorage.setItem('words_played', sessionStorage.getItem('words_played') + '||' + w);
+            if (sessionStorage.getItem('words_played')==='')
+                sessionStorage.setItem('words_played', w);    
+            else
+                sessionStorage.setItem('words_played', sessionStorage.getItem('words_played') + '||' + w);
             var index = words.indexOf(w);
             if (index !== -1) words.splice(index, 1);
             console.log('Διαθέσιμες λέξεις: ' + words);
