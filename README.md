@@ -7,5 +7,10 @@
 # Απαιτούμενα
 
 Απαιτεί χρήση [bower](https://bower.io/) με εγκατεστημένα τα πρόσθετα:
+1. bootstrap4
+2. jquery
+3. jquery-ui
+
+
 bower install bootstrap4 jquery jquery-ui
 
