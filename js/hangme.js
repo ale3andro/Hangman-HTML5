@@ -214,9 +214,9 @@ function start_game() {
             $(this).hide();
             drawWord(w, guess);
             if (checkWin($('#theword').html())) {
-                $('#msg').html('Μπράβο! Βρήκες τη λέξη!.');
+                $('#msg').html('<img src="images/thumbs_up.png"><a href="index.html"><img src="images/replay.png"></a>');
+                $('#msg').effect( "bounce", "slow" );
                 $('#letters').hide();
-
             }
         } else {
             t++;
