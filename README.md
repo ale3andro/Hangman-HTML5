@@ -23,7 +23,10 @@
 
 # Screenshots
 ![screenshot0](images/screenshots/screenshot0.png)
+
 ![screenshot1](images/screenshots/screenshot1.png)
+
 ![screenshot2](images/screenshots/screenshot2.png)
+
 ![screenshot3](images/screenshots/screenshot3.png)
 
