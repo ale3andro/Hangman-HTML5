@@ -18,11 +18,12 @@
 3. jquery-ui
 
 Προτείνεται (για λόγους ευκολίας) η εγκατάσταση τους μέσω [bower.io](https://bower.io/)
+
 **bower install bootstrap4 jquery jquery-ui**
 
 # Screenshots
-![screenshot0](screenshot0.png)
-![screenshot1](screenshot1.png)
-![screenshot2](screenshot2.png)
-![screenshot3](screenshot3.png)
+![screenshot0](images/screenshots/screenshot0.png)
+![screenshot1](images/screenshots/screenshot1.png)
+![screenshot2](images/screenshots/screenshot2.png)
+![screenshot3](images/screenshots/screenshot3.png)
 
