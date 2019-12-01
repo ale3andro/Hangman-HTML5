@@ -12,12 +12,9 @@
 Η αρχική έκδοση του, προ fork, είναι διαθέσιμη [εδώ](https://github.com/vgabi94/Hangman-HTML5)
 
 # Απαιτούμενα
-Απαιτεί χρήση των παρακάτω πρόσθετων:
-1. bootstrap4
-2. jquery
-3. jquery-ui
+Προτείνεται (για λόγους ευκολίας) η εγκατάσταση τους μέσω [yarn](https://yarnpkg.com/en/)
 
-Προτείνεται (για λόγους ευκολίας) η εγκατάσταση τους μέσω [bower.io](https://bower.io/)
+yarn install
 
 **bower install bootstrap4 jquery jquery-ui**
 
