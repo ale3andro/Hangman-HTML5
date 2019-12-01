@@ -14,9 +14,8 @@
 # Απαιτούμενα
 Προτείνεται (για λόγους ευκολίας) η εγκατάσταση τους μέσω [yarn](https://yarnpkg.com/en/)
 
-yarn install
+**yarn install**
 
-**bower install bootstrap4 jquery jquery-ui**
 
 # Screenshots
 ![screenshot0](images/screenshots/screenshot0.png)
