@@ -1,0 +1,16 @@
+{
+  "name": "Hangman-HTML5",
+  "version": "1.0.0",
+  "description": "Hangman game ",
+  "main": "index.html",
+  "repository": "git@github.com:ale3andro/Hangman-HTML5.git",
+  "author": "ale3andro <ale3andro@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "jquery-ui-dist": "^1.12.1",
+    "jquery-ui-themes": "^1.12.0",
+    "popper.js": "^1.16.0"
+  }
+}
